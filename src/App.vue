@@ -1,12 +1,19 @@
 <template>
 
-  <Modal @closeModal="모달창 = false;" :원룸들="원룸들" :누른거="누른거" :모달창="모달창"/>
+  <transition name="fade">
+    <Modal @closeModal="모달창 = false;" :원룸들="원룸들" :누른거="누른거" :모달창="모달창"/>
+  </transition>
 
   <div class="menu">
     <a v-for="(a,i) in 메뉴들" :key="i">{{ a }}</a>
   </div>
 
-  <Discount/>
+  <Discount v-if="showDiscount == true" />
+
+<button @click="priceSort1">가격낮은순 정렬</button>
+<button @click="priceSort2">가격높은순 정렬</button>
+<button @click="priceSort3">가나다순 정렬</button>
+<button @click="sortBack">되돌리기</button>
 
   <Card @openModal="모달창 = true; 누른거=$event" :원룸들="원룸들[i]" v-for="(a, i) in 원룸들" :key="i"/>
   
@@ -30,6 +37,8 @@ export default {
   name: 'App',
   data(){
     return{
+      showDiscount : true,
+      원룸들오리지널 : [...data],
       누른거 : 0,
       원룸들 : data,
       모달창 : false,
@@ -42,7 +51,33 @@ export default {
     increase(){
       this.신고수[0] += 1;
     },
+    sortBack(){
+      this.원룸들 = [...this.원룸들오리지널];
+    },
+    priceSort1(){
+      this.원룸들.sort(function(a,b){
+        return a.price - b.price
+      });
+    },
+    priceSort2(){
+      this.원룸들.sort(function(a,b){
+        return b.price - a.price
+      });
+    },
+    priceSort3(){
+      this.원룸들.sort(function(a,b){
+        return a.title - b.title
+      });
+    },
   },
+
+/*  
+  mounted(){
+    setTimeout(() => {
+      this.showDiscount = false;
+    }, 2000);
+  },
+*/
   components: {
     Discount : Discount,
     Modal : Modal,
@@ -52,6 +87,29 @@ export default {
 </script>
 
 <style>
+.fade-enter-from {
+  opacity:0;
+  transform:translateY(-1000px);
+}
+.fade-enter-active {
+  transition:all 1s;
+}
+.fade-enter-to {
+  opacity:1;
+  transform:translateY(0px);
+}
+
+.fade-leave-from {
+  opacity:1;
+}
+.fade-leave-active {
+  transition:all 1s;
+}
+.fade-leave-to {
+  opacity:0;
+}
+
+
 body{
   margin : 0
 }

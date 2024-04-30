@@ -5,14 +5,9 @@
       <h4>{{ 원룸들[누른거].title }}</h4>
       <p>{{ 원룸들[누른거].content }}</p>
       <input v-model.number="month">
-      <!--<input @input="month = $event.target.value">
-      <textarea v-model="month"></textarea>
-      <select v-model="month">
-        <option></option>
-        <option></option>
-      </select>-->
+      
       <p> {{ month }} 개월 선택함 : {{ 원룸들[누른거].price * month }} 원</p>
-      <button @click="closeModal">닫기</button>
+      <button @click="$emit('closeModal')">닫기</button>
     </div>
   </div>
 </template>
@@ -23,6 +18,22 @@ export default {
     data() {
       return {
         month : 1,
+      }
+    },
+    watch : {
+      month(a){
+        if(isNaN(a) == true){
+          alert("문자입력하지마라")
+          this.month = 1;
+        }
+        if(a >= 13){
+          alert('13이상 입력하지 마셈');
+          this.month = 1;
+        }
+        if(a < 3){
+          alert('3이상 선택하셈');
+          this.month = 1;
+        }
       }
     },
     props : {
