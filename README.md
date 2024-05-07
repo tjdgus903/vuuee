@@ -1,5 +1,8 @@
 # vuedongsan
 
+![image](https://github.com/tjdgus903/vuuee/assets/158554431/1168ec9a-7d7d-4856-849c-c1c595634833)
+
+
 ## Project setup
 ```
 npm install
